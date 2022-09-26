@@ -30,12 +30,14 @@ class SCMFrameCommand extends Command
     {
         $flowname = $this->argument('name');
         foreach ($flowname as $name) {
-            $this->checkCreateNeeds($name, "app/Contracts/Dao");
-            $this->checkCreateNeeds($name, "app/Dao");
-            $this->checkCreateNeeds($name, "app/Contracts/Services");
-            $this->checkCreateNeeds($name, "app/Services");
-            Artisan::call('make:model -mc ' . $name . ' -mcr');
-            $this->bindFile($name);
+            $filterFile = ucfirst($name);
+            $this->checkCreateNeeds($filterFile, "app/Contracts/Dao");
+            $this->checkCreateNeeds($filterFile, "app/Dao");
+            $this->checkCreateNeeds($filterFile, "app/Contracts/Services");
+            $this->checkCreateNeeds($filterFile, "app/Services");
+            Artisan::call('make:model -mc ' . $filterFile . ' -mcr');
+            $this->info("Model, Migration and Controller files of " . $filterFile . " are generated.");
+            $this->bindFile($filterFile);
         }
         $this->info("Successfully created files. Now ready to implement.");
     }
@@ -45,6 +47,7 @@ class SCMFrameCommand extends Command
         $fileExtension = ".php";
         if (!is_dir($folder)) {
             mkdir($folder, 0777, true);
+            $this->info($folder . " is generated.");
         }
         if (str_contains($folder, "Contracts")) {
             $fileExtension = "Interface" . $fileExtension;
@@ -77,6 +80,7 @@ class SCMFrameCommand extends Command
             $content
         );
         fclose($newFile);
+        $this->info($name . " is generated.");
         return;
     }
 
@@ -102,14 +106,13 @@ class SCMFrameCommand extends Command
             if ($dao) {
                 $useString .= "\Dao" . DIRECTORY_SEPARATOR . "" . $filename . "DaoInterface;";
                 $content = "class " . $finalName . "Dao implements " . $finalName . "DaoInterface {
-public function __construct() {
-}
 }";
             } else {
                 $useString .= "\Services" . DIRECTORY_SEPARATOR . "" . $filename . "ServiceInterface;";
                 $content = "class " . $finalName . "Service implements " . $finalName . "ServiceInterface {
-public function __construct() {
-}
+    public function __construct() {
+
+    }
 }";
             }
         }
