@@ -1,0 +1,19 @@
+{
+    "name": "generate/scmframe",
+    "description": "This is a package of generating scm-folder structure.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Wai-Thura-Tun1",
+            "email": "scm.waithuratun@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Generate\\Scmframe\\": "src/"
+        }
+    }
+}
