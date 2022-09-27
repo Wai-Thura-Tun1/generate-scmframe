@@ -2,11 +2,8 @@
 A package for generating scm-folder structure
 
 Installation >>
-Step1. composer require generate/scmframe
 
-Step2. Add 'Generate\Scmframe\SCMFrameServiceProvider::class' in providers of app.php
-
-Step3. run php artisan config:cache to update changes
+composer require generate/scmframe
 
 Description >>
 This is a package for creating scm-frame using a convience way. Just by writing one command-line, SCM-Frame is generated quickly.
