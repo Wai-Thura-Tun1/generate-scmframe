@@ -37,7 +37,6 @@ class SCMFrameCommand extends Command
             $this->checkCreateNeeds($filterFile, "app/Services");
             Artisan::call('make:model -mc ' . $filterFile . ' -mcr');
             $this->info("Model, Migration and Controller files of " . $filterFile . " are generated.");
-            $this->bindFile($filterFile);
         }
         $this->info("Successfully created files. Now ready to implement.");
     }
@@ -74,13 +73,17 @@ class SCMFrameCommand extends Command
 
     public function createFile($name, $content)
     {
-        $newFile = fopen($name, 'w');
-        fwrite(
-            $newFile,
-            $content
-        );
-        fclose($newFile);
-        $this->info($name . " is generated.");
+        if (!file_exists($name)) {
+            $newFile = fopen($name, 'w');
+            fwrite(
+                $newFile,
+                $content
+            );
+            fclose($newFile);
+            $this->info($name . " is generated.");
+            return;
+        }
+        $this->info($name . " is already generated");
         return;
     }
 
@@ -122,16 +125,4 @@ class SCMFrameCommand extends Command
             "?>";
     }
 
-    public function bindFile($fname)
-    {
-        app()->bind(
-            "App\Contracts\Dao" . DIRECTORY_SEPARATOR . ucfirst($fname) . "DaoInterface",
-            'App\Dao' . DIRECTORY_SEPARATOR . ucfirst($fname) . 'Dao'
-        );
-        app()->bind(
-            "App\Contracts\Services" . DIRECTORY_SEPARATOR . ucfirst($fname) . "ServiceInterface",
-            'App\Services' . DIRECTORY_SEPARATOR . ucfirst($fname) . 'Service'
-        );
-        return;
-    }
 }
