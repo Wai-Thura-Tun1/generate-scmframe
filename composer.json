@@ -15,5 +15,12 @@
         "psr-4": {
             "Generate\\Scmframe\\": "src/"
         }
+    },
+    "extra": {
+        "laravel":{
+            "providers": [
+                "Generate\\Scmframe\\SCMFrameServiceProvider"
+            ]
+        }
     }
 }
