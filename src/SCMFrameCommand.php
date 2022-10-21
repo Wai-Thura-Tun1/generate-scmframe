@@ -35,7 +35,7 @@ class SCMFrameCommand extends Command
             $this->checkCreateNeeds($filterFile, "app/Dao");
             $this->checkCreateNeeds($filterFile, "app/Contracts/Services");
             $this->checkCreateNeeds($filterFile, "app/Services");
-            Artisan::call('make:model -mc ' . $filterFile . ' -mcr');
+            Artisan::call('make:model -mc ' . $filterFile . ' -mc');
             $this->info("Model, Migration and Controller files of " . $filterFile . " are generated.");
         }
         $this->info("Successfully created files. Now ready to implement.");
